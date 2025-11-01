@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>I S I S</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Creepster', cursive;
+            background: linear-gradient(45deg, #1a0000, #000);
+            background-size: 200%;
+            animation: gradientShift 15s ease infinite;
+            color: #cc3333;
+            cursor: default;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Background container */
+        #bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+        .background-image {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            filter: blur(2px) brightness(0.7);
+            transition: opacity 1s ease;
+        }
+        .background-image.active {
+            opacity: 0.4;
+        }
+
+        /* Flicker effect (tons of it) */
+        body.flicker {
+            animation: flicker 0.06s ease;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.15; filter: brightness(0.4) contrast(1.5); }
+            100% { opacity: 1; }
+        }
+
+        /* Initial content */
+        #initial-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            z-index: 2;
+            position: relative;
+            padding: 30px;
+        }
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #cc3333;
+            text-shadow: 0 0 8px #cc3333, 0 0 15px #cc3333;
+            animation: pulse 1.5s infinite;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        #join-btn {
+            padding: 8px 20px;
+            font-family: 'Creepster', cursive;
+            font-size: 1.2rem;
+            color: #cc3333;
+            background: linear-gradient(90deg, #1a0000, #cc3333, #1a0000);
+            background-size: 200%;
+            border: 2px solid #cc3333;
+            border-radius: 6px;
+            cursor: pointer;
+            text-shadow: 0 0 6px #cc3333;
+            transition: all 0.3s;
+        }
+        #join-btn:hover {
+            background-position: 100%;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Loading overlay */
+        #loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #000, #1a0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        #loading-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #cc3333;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            box-shadow: 0 0 12px #cc3333;
+            filter: blur(1px);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Recruitment overlay */
+        #recruitment-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(204, 51, 51, 0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        #recruitment-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .recruitment-card {
+            max-width: 700px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 30px;
+            background: linear-gradient(45deg, rgba(204, 51, 51, 0.1), rgba(0, 0, 0, 0.8));
+            border: 3px solid #cc3333;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(204, 51, 51, 0.4);
+        }
+        .recruitment-header {
+            font-family: 'Creepster', cursive;
+            font-size: 2rem;
+            color: #cc3333;
+            text-shadow: 0 0 8px #cc3333;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .user-block {
+            background: linear-gradient(45deg, #1a0000, rgba(204, 51, 51, 0.2));
+            border: 2px solid #cc3333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 0 12px rgba(204, 51, 51, 0.3);
+        }
+        .recruitment-pfp {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 10px;
+            border: 2px solid #cc3333;
+            animation: pfp-rotate 5s linear infinite;
+            filter: blur(0.5px);
+        }
+        .recruitment-pfp img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @keyframes pfp-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .recruitment-username {
+            font-family: 'Creepster', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #cc3333;
+            text-shadow: 0 0 6px #cc3333;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .diabolical-list {
+            max-width: 600px;
+            margin: 20px auto;
+            background: linear-gradient(180deg, rgba(204, 51, 51, 0.2), rgba(0, 0, 0, 0.8));
+            border: 2px solid #cc3333;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            color: #cc3333;
+            font-family: 'Creepster', cursive;
+            font-size: 1rem;
+            text-shadow: 0 0 5px #cc3333;
+            line-height: 1.8;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease, opacity 0.4s ease;
+        }
+        .diabolical-list.open {
+            max-height: 600px;
+            opacity: 1;
+            padding: 15px;
+        }
+        .diabolical-list li {
+            margin-left: 20px;
+        }
+        .recruitment-close {
+            margin-top: 30px;
+            padding: 8px 18px;
+            background: linear-gradient(90deg, #1a0000, #cc3333, #1a0000);
+            background-size: 200%;
+            border: 2px solid #cc3333;
+            color: #cc3333;
+            font-family: 'Creepster', cursive;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .recruitment-close:hover {
+            background-position: 100%;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Audio */
+        audio {
+            display: none;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="bg-container">
+        <div class="background-image" style="background-image: url('https://cdn.britannica.com/28/258728-050-CC28BCCA/masked-islamic-state-soldier-poses-holding-the-isil-banner-in-the-desert-2015.jpg');"></div>
+        <div class="background-image" style="background-image: url('https://natoassociation.ca/wp-content/uploads/2014/07/isis-in-syria.jpg');"></div>
+        <div class="background-image" style="background-image: url('https://media2.s-nbcnews.com/i/MSNBC/Components/Video/150225/a_orig_isistimeline_150225.jpg');"></div>
+        <div class="background-image" style="background-image: url('https://m.media-amazon.com/images/S/pv-target-images/95ebb3da792101a425cd3b7e21dac75e4403c17d04faae0088c8f617b622b39c._SX1080_FMjpg_.jpg');"></div>
+        <div class="background-image" style="background-image: url('https://media.cnn.com/api/v1/images/stellar/prod/141117103601-isis-masked-militant-flag.jpg?q=x_0,y_0,h_1080,w_1920,c_fill/w_800');"></div>
+    </div>
+
+    <!-- Initial content -->
+    <div id="initial-content">
+        <h1>JOIN ISIS</h1>
+        <button id="join-btn">Join Now</button>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Recruitment overlay -->
+    <div id="recruitment-overlay" aria-hidden="true">
+        <div class="recruitment-card">
+            <div class="recruitment-header">REQUIRED TO JOIN ISIS</div>
+            <div class="user-block">
+                <div class="recruitment-pfp">
+                    <img src="https://i.pinimg.com/736x/27/85/ce/2785cec3ee34bfe5403ae929adcffc29.jpg" alt="zoophilism pfp">
+                </div>
+                <div class="recruitment-username">@zoophilism - hamdanʰᵃˡᵃˡ</div>
+            </div>
+            <div class="user-block">
+                <div class="recruitment-pfp">
+                    <img src="https://i.pinimg.com/736x/33/a6/40/33a6407473546486c212e9fe75c47807.jpg" alt="harza pfp">
+                </div>
+                <div class="recruitment-username">@72435 - harzaʰᵃˡᵃˡ</div>
+            </div>
+            <div class="diabolical-list" id="diabolical-list">
+                <ul>
+                    <li>Bombing of Jews</li>
+                    <li>Bombing of Churches</li>
+                    <li>Killing Infidels</li>
+                    <li>Stabbing Crusaders</li>
+                    <li>Beheadings</li>
+                    <li>Arson of Holy Sites</li>
+                    <li>Mass Executions</li>
+                    <li>Terror Raids</li>
+                    <li>Suicide Bombings</li>
+                    <li>Kidnapping Apostates</li>
+                </ul>
+            </div>
+            <button class="recruitment-close" id="recruitment-close">Close</button>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="isis-audio" autoplay>
+        <source src="isis.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const joinBtn = document.getElementById('join-btn');
+        const initialContent = document.getElementById('initial-content');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const recruitmentOverlay = document.getElementById('recruitment-overlay');
+        const recruitmentClose = document.getElementById('recruitment-close');
+        const diabolicalList = document.getElementById('diabolical-list');
+        const isisAudio = document.getElementById('isis-audio');
+        const bgImages = document.querySelectorAll('.background-image');
+        let currentBgIndex = 0;
+
+        // Autoplay audio on load
+        window.addEventListener('load', () => {
+            isisAudio.play().catch(e => console.log('Autoplay blocked:', e));
+        });
+
+        // Flicker effect (tons of it)
+        function triggerFlicker() {
+            document.body.classList.add('flicker');
+            setTimeout(() => document.body.classList.remove('flicker'), 60);
+            setTimeout(triggerFlicker, 500 + Math.random() * 500);
+        }
+        triggerFlicker();
+
+        // Background image cycling
+        function cycleBackgrounds() {
+            bgImages.forEach((img, index) => {
+                img.classList.remove('active');
+                if (index === currentBgIndex) {
+                    img.classList.add('active');
+                }
+            });
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            setTimeout(cycleBackgrounds, 3000); // Change every 3 seconds
+        }
+        cycleBackgrounds();
+
+        // Join button click
+        joinBtn.addEventListener('click', () => {
+            joinBtn.disabled = true;
+            initialContent.style.display = 'none';
+            loadingOverlay.classList.add('active');
+            isisAudio.play().catch(e => console.log('Audio error:', e));
+            setTimeout(() => {
+                loadingOverlay.classList.remove('active');
+                recruitmentOverlay.classList.add('open');
+                recruitmentOverlay.setAttribute('aria-hidden', 'false');
+                diabolicalList.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }, 2000); // 2-second loading
+        });
+
+        // Close recruitment overlay
+        function closeRecruitment() {
+            recruitmentOverlay.classList.remove('open');
+            recruitmentOverlay.setAttribute('aria-hidden', 'true');
+            diabolicalList.classList.remove('open');
+            document.body.style.overflow = '';
+            initialContent.style.display = 'flex';
+            joinBtn.disabled = false;
+        }
+        recruitmentClose.addEventListener('click', closeRecruitment);
+        recruitmentOverlay.addEventListener('click', (e) => {
+            const card = document.querySelector('.recruitment-card');
+            if (!card.contains(e.target)) {
+                closeRecruitment();
+            }
+        });
+
+        // Block right-click, dev tools, and F12
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', (e) => {
+            const mac = navigator.platform.toLowerCase().includes('mac');
+            const ctrlKey = mac ? e.metaKey : e.ctrlKey;
+            if (e.key === 'F12') {
+                e.preventDefault();
+                alert('F12 blocked, infidel. Stay out.');
+            }
+            if (ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+                e.preventDefault();
+                alert('No snooping, infidel. This site’s locked.');
+            }
+            if (ctrlKey && !e.shiftKey && (e.key === 'U' || e.key === 'u')) {
+                e.preventDefault();
+                alert('Source code’s off-limits, pal.');
+            }
+        });
+
+        // Tab title rotation
+        const titles = ["I S I S", "J O I N", "@zoophilism", "@72435"];
+        let titleIndex = 0;
+        setInterval(() => {
+            document.title = titles[titleIndex];
+            titleIndex = (titleIndex + 1) % titles.length;
+        }, 1500);
+    </script>
+</body>
+</html>
