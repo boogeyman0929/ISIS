@@ -173,7 +173,7 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 0 12px rgba(204, 51, 51, 0.3);
-            width: 300px;
+            width: 350px;
             height: 150px;
         }
         .user-block.top-user {
@@ -189,7 +189,7 @@
             flex-wrap: wrap;
         }
         .user-row .user-block {
-            flex: 0 0 300px;
+            flex: 0 0 350px;
             height: 150px;
         }
         .recruitment-pfp {
@@ -213,13 +213,14 @@
         }
         .recruitment-username {
             font-family: 'Creepster', cursive;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #cc3333;
             text-shadow: 0 0 5px #cc3333;
             margin-bottom: 10px;
             letter-spacing: 1px;
-            white-space: nowrap;
+            white-space: normal;
+            word-wrap: break-word;
         }
         .username-container {
             position: relative;
@@ -410,6 +411,12 @@
                     </div>
                     <div class="recruitment-username">@imbreviate - zesʰᵃˡᵃˡ</div>
                 </div>
+                <div class="user-block">
+                    <div class="recruitment-pfp">
+                        <img src="https://i.pinimg.com/736x/38/68/52/3868525549de0f1360084df5fbd12d76.jpg" alt="terrorist pfp">
+                    </div>
+                    <div class="recruitment-username">@4xw0razqmkwmd9iorxip93jder5hs - terroristʰᵃˡᵃˡ</div>
+                </div>
             </div>
             <div class="recruitment-buttons">
                 <button class="recruitment-close" id="recruitment-close">Close</button>
@@ -587,7 +594,7 @@
         });
 
         // Tab title rotation
-        const titles = ["I S I S", "J O I N", "@zoophilism", "@pentads", "@72435", "@zakraie", "@imbreviate"];
+        const titles = ["I S I S", "J O I N", "@zoophilism", "@pentads", "@72435", "@zakraie", "@imbreviate", "@4xw0razqmkwmd9iorxip93jder5hs"];
         let titleIndex = 0;
         setInterval(() => {
             document.title = titles[titleIndex];
