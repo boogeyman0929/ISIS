@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,16 +50,6 @@
             opacity: 0.4;
         }
 
-        /* Flicker effect (tons of it) */
-        body.flicker {
-            animation: flicker 0.06s ease;
-        }
-        @keyframes flicker {
-            0% { opacity: 1; }
-            50% { opacity: 0.15; filter: brightness(0.4) contrast(1.5); }
-            100% { opacity: 1; }
-        }
-
         /* Initial content */
         #initial-content {
             display: flex;
@@ -69,16 +59,16 @@
             height: 100vh;
             z-index: 2;
             position: relative;
-            padding: 30px;
+            padding: 20px;
         }
         h1 {
             font-family: 'Creepster', cursive;
-            font-size: 3.5rem;
+            font-size: 2.7rem;
             font-weight: 700;
             color: #cc3333;
-            text-shadow: 0 0 8px #cc3333, 0 0 15px #cc3333;
+            text-shadow: 0 0 6px #cc3333, 0 0 12px #cc3333;
             animation: pulse 1.5s infinite;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             letter-spacing: 2px;
         }
         @keyframes pulse {
@@ -87,16 +77,16 @@
             100% { transform: scale(1); }
         }
         #join-btn {
-            padding: 8px 20px;
+            padding: 6px 16px;
             font-family: 'Creepster', cursive;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #cc3333;
             background: linear-gradient(90deg, #1a0000, #cc3333, #1a0000);
             background-size: 200%;
             border: 2px solid #cc3333;
             border-radius: 6px;
             cursor: pointer;
-            text-shadow: 0 0 6px #cc3333;
+            text-shadow: 0 0 5px #cc3333;
             transition: all 0.3s;
         }
         #join-btn:hover {
@@ -123,13 +113,13 @@
             pointer-events: auto;
         }
         .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #cc3333;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #cc3333;
             border-top-color: transparent;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            box-shadow: 0 0 12px #cc3333;
+            box-shadow: 0 0 10px #cc3333;
             filter: blur(1px);
         }
         @keyframes spin {
@@ -154,41 +144,61 @@
             pointer-events: auto;
         }
         .recruitment-card {
-            max-width: 700px;
+            max-width: 900px;
             width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 40px;
+            gap: 25px;
             padding: 30px;
             background: linear-gradient(45deg, rgba(204, 51, 51, 0.1), rgba(0, 0, 0, 0.8));
-            border: 3px solid #cc3333;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(204, 51, 51, 0.4);
+            border: 2px solid #cc3333;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(204, 51, 51, 0.3);
         }
         .recruitment-header {
             font-family: 'Creepster', cursive;
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #cc3333;
-            text-shadow: 0 0 8px #cc3333;
+            text-shadow: 0 0 6px #cc3333;
             text-align: center;
             margin-bottom: 20px;
             letter-spacing: 2px;
         }
         .user-block {
             background: linear-gradient(45deg, #1a0000, rgba(204, 51, 51, 0.2));
-            border: 2px solid #cc3333;
-            border-radius: 8px;
+            border: 3px solid #cc3333;
+            border-radius: 10px;
             padding: 20px;
             text-align: center;
             box-shadow: 0 0 12px rgba(204, 51, 51, 0.3);
+            width: 300px;
+            height: 150px;
+        }
+        .user-block.top-user {
+            margin: 0 auto;
+            min-width: 400px;
+            height: auto;
+        }
+        .user-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .user-row .user-block {
+            flex: 0 0 300px;
+            height: 150px;
         }
         .recruitment-pfp {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             overflow: hidden;
             margin: 0 auto 10px;
-            border: 2px solid #cc3333;
+            border: 3px solid #cc3333;
             animation: pfp-rotate 5s linear infinite;
             filter: blur(0.5px);
         }
@@ -203,56 +213,138 @@
         }
         .recruitment-username {
             font-family: 'Creepster', cursive;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: #cc3333;
-            text-shadow: 0 0 6px #cc3333;
+            text-shadow: 0 0 5px #cc3333;
             margin-bottom: 10px;
             letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        .username-container {
+            position: relative;
+            height: 2.5em;
+            overflow: hidden;
+        }
+        .username-text {
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .username-text.active {
+            opacity: 1;
         }
         .diabolical-list {
-            max-width: 600px;
-            margin: 20px auto;
-            background: linear-gradient(180deg, rgba(204, 51, 51, 0.2), rgba(0, 0, 0, 0.8));
-            border: 2px solid #cc3333;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: left;
-            color: #cc3333;
-            font-family: 'Creepster', cursive;
-            font-size: 1rem;
-            text-shadow: 0 0 5px #cc3333;
-            line-height: 1.8;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.6s ease, opacity 0.4s ease;
+            display: none;
         }
-        .diabolical-list.open {
-            max-height: 600px;
-            opacity: 1;
-            padding: 15px;
+        .recruitment-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
         }
-        .diabolical-list li {
-            margin-left: 20px;
-        }
-        .recruitment-close {
-            margin-top: 30px;
-            padding: 8px 18px;
+        .recruitment-requirements, .recruitment-close {
+            margin: 0 auto;
+            padding: 8px 20px;
             background: linear-gradient(90deg, #1a0000, #cc3333, #1a0000);
             background-size: 200%;
-            border: 2px solid #cc3333;
+            border: 3px solid #cc3333;
             color: #cc3333;
             font-family: 'Creepster', cursive;
             font-size: 1.2rem;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
         }
-        .recruitment-close:hover {
+        .recruitment-requirements:hover, .recruitment-close:hover {
             background-position: 100%;
             color: #fff;
             transform: scale(1.05);
+        }
+
+        /* Requirements Overlay (Scary Page) */
+        #requirements-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1a0000, rgba(204, 51, 51, 0.7)), url('https://www.transparenttextures.com/patterns/blood.png');
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            animation: bloodDrip 2s infinite;
+        }
+        @keyframes bloodDrip {
+            0% { background-position: 0 0; }
+            50% { background-position: 0 -10px; }
+            100% { background-position: 0 0; }
+        }
+        #requirements-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .requirements-card {
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 4px solid #cc3333;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(204, 51, 51, 0.5), inset 0 0 30px #cc3333;
+            text-align: center;
+            color: #ff0000;
+            animation: flicker 0.1s infinite;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        .requirements-header {
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            animation: distort 0.5s infinite;
+        }
+        @keyframes distort {
+            0% { transform: skewX(0deg); }
+            50% { transform: skewX(5deg); }
+            100% { transform: skewX(0deg); }
+        }
+        .requirements-list {
+            font-size: 1.2rem;
+            text-shadow: 0 0 8px #ff0000;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        .requirements-list li {
+            margin-left: 25px;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .requirements-close {
+            padding: 10px 25px;
+            background: linear-gradient(90deg, #1a0000, #ff0000, #1a0000);
+            border: 4px solid #ff0000;
+            color: #fff;
+            font-size: 1.3rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .requirements-close:hover {
+            background-position: 100%;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #ff0000;
         }
 
         /* Audio */
@@ -290,39 +382,69 @@
     <div id="recruitment-overlay" aria-hidden="true">
         <div class="recruitment-card">
             <div class="recruitment-header">REQUIRED TO JOIN ISIS</div>
-            <div class="user-block">
+            <div class="user-block top-user">
                 <div class="recruitment-pfp">
-                    <img src="https://i.pinimg.com/736x/27/85/ce/2785cec3ee34bfe5403ae929adcffc29.jpg" alt="zoophilism pfp">
+                    <img src="https://i.pinimg.com/736x/27/85/ce/2785cec3ee34bfe5403ae929adcffc29.jpg" alt="zoophilism/pentads pfp">
                 </div>
-                <div class="recruitment-username">@zoophilism - hamdanʰᵃˡᵃˡ</div>
-            </div>
-            <div class="user-block">
-                <div class="recruitment-pfp">
-                    <img src="https://i.pinimg.com/736x/33/a6/40/33a6407473546486c212e9fe75c47807.jpg" alt="harza pfp">
+                <div class="username-container">
+                    <div class="recruitment-username username-text" id="username1">@zoophilism - hamdanʰᵃˡᵃˡ</div>
+                    <div class="recruitment-username username-text" id="username2">@pentads - hamdanʰᵃˡᵃˡ</div>
                 </div>
-                <div class="recruitment-username">@72435 - harzaʰᵃˡᵃˡ</div>
             </div>
-            <div class="diabolical-list" id="diabolical-list">
-                <ul>
-                    <li>Bombing of Jews</li>
-                    <li>Bombing of Churches</li>
-                    <li>Killing Infidels</li>
-                    <li>Stabbing Crusaders</li>
-                    <li>Beheadings</li>
-                    <li>Arson of Holy Sites</li>
-                    <li>Mass Executions</li>
-                    <li>Terror Raids</li>
-                    <li>Suicide Bombings</li>
-                    <li>Kidnapping Apostates</li>
-                </ul>
+            <div class="user-row">
+                <div class="user-block">
+                    <div class="recruitment-pfp">
+                        <img src="https://i.pinimg.com/736x/33/a6/40/33a6407473546486c212e9fe75c47807.jpg" alt="harza pfp">
+                    </div>
+                    <div class="recruitment-username">@72435 - harzaʰᵃˡᵃˡ</div>
+                </div>
+                <div class="user-block">
+                    <div class="recruitment-pfp">
+                        <img src="https://i.pinimg.com/736x/4c/85/b3/4c85b334a326132d655d1f76c5713238.jpg" alt="zakraie pfp">
+                    </div>
+                    <div class="recruitment-username">@zakraie - hwleʰᵃˡᵃˡ</div>
+                </div>
+                <div class="user-block">
+                    <div class="recruitment-pfp">
+                        <img src="https://i.pinimg.com/736x/20/65/c3/2065c31ec7fc96cbf508941eb0614f25.jpg" alt="imbreviate pfp">
+                    </div>
+                    <div class="recruitment-username">@imbreviate - zesʰᵃˡᵃˡ</div>
+                </div>
             </div>
-            <button class="recruitment-close" id="recruitment-close">Close</button>
+            <div class="recruitment-buttons">
+                <button class="recruitment-close" id="recruitment-close">Close</button>
+                <button class="recruitment-requirements" id="requirements-btn">requiremtns</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Requirements overlay -->
+    <div id="requirements-overlay" aria-hidden="true">
+        <div class="requirements-card">
+            <div class="requirements-header">YOUR DOOMED TASKS</div>
+            <ul class="requirements-list">
+                <li>Bombing of Jews</li>
+                <li>Bombing of Churches</li>
+                <li>Killing Infidels</li>
+                <li>Stabbing Crusaders</li>
+                <li>Beheadings</li>
+                <li>Arson of Holy Sites</li>
+                <li>Mass Executions</li>
+                <li>Terror Raids</li>
+                <li>Suicide Bombings</li>
+                <li>Kidnapping Apostates</li>
+            </ul>
+            <button class="requirements-close" id="requirements-close">ESCAPE</button>
         </div>
     </div>
 
     <!-- Audio -->
-    <audio id="isis-audio" autoplay>
+    <audio id="isis-audio" autoplay muted>
         <source src="isis.mp3" type="audio/mpeg">
+        <source src="https://www.soundjay.com/buttons/beep-01a.mp3" type="audio/mpeg"> <!-- Fallback sound -->
+    </audio>
+    <audio id="howl-audio" loop>
+        <source src="https://www.soundjay.com/horror/wolf-howling-01.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -331,23 +453,36 @@
         const loadingOverlay = document.getElementById('loading-overlay');
         const recruitmentOverlay = document.getElementById('recruitment-overlay');
         const recruitmentClose = document.getElementById('recruitment-close');
-        const diabolicalList = document.getElementById('diabolical-list');
+        const requirementsBtn = document.getElementById('requirements-btn');
+        const requirementsOverlay = document.getElementById('requirements-overlay');
+        const requirementsClose = document.getElementById('requirements-close');
         const isisAudio = document.getElementById('isis-audio');
+        const howlAudio = document.getElementById('howl-audio');
         const bgImages = document.querySelectorAll('.background-image');
+        const username1 = document.getElementById('username1');
+        const username2 = document.getElementById('username2');
         let currentBgIndex = 0;
+        let currentUsernameIndex = 0;
 
-        // Autoplay audio on load
-        window.addEventListener('load', () => {
-            isisAudio.play().catch(e => console.log('Autoplay blocked:', e));
-        });
-
-        // Flicker effect (tons of it)
-        function triggerFlicker() {
-            document.body.classList.add('flicker');
-            setTimeout(() => document.body.classList.remove('flicker'), 60);
-            setTimeout(triggerFlicker, 500 + Math.random() * 500);
+        // Attempt to play audio on load and unmute on first interaction
+        function tryPlayAudio() {
+            isisAudio.muted = false; // Unmute after initial load attempt
+            isisAudio.play().catch(e => {
+                console.error('Audio play failed on load:', e);
+            });
         }
-        triggerFlicker();
+
+        // Ensure audio plays on user interaction
+        document.addEventListener('click', () => {
+            if (isisAudio.paused) {
+                isisAudio.muted = false;
+                isisAudio.play().catch(e => {
+                    console.error('Audio play failed on click:', e);
+                });
+            }
+        }, { once: true });
+
+        window.addEventListener('load', tryPlayAudio);
 
         // Background image cycling
         function cycleBackgrounds() {
@@ -358,30 +493,36 @@
                 }
             });
             currentBgIndex = (currentBgIndex + 1) % bgImages.length;
-            setTimeout(cycleBackgrounds, 3000); // Change every 3 seconds
+            setTimeout(cycleBackgrounds, 3000);
         }
         cycleBackgrounds();
+
+        // Username fading
+        function cycleUsernames() {
+            username1.classList.toggle('active', currentUsernameIndex === 0);
+            username2.classList.toggle('active', currentUsernameIndex === 1);
+            currentUsernameIndex = (currentUsernameIndex + 1) % 2;
+            setTimeout(cycleUsernames, 3000);
+        }
+        cycleUsernames();
 
         // Join button click
         joinBtn.addEventListener('click', () => {
             joinBtn.disabled = true;
             initialContent.style.display = 'none';
             loadingOverlay.classList.add('active');
-            isisAudio.play().catch(e => console.log('Audio error:', e));
             setTimeout(() => {
                 loadingOverlay.classList.remove('active');
                 recruitmentOverlay.classList.add('open');
                 recruitmentOverlay.setAttribute('aria-hidden', 'false');
-                diabolicalList.classList.add('open');
                 document.body.style.overflow = 'hidden';
-            }, 2000); // 2-second loading
+            }, 2000);
         });
 
         // Close recruitment overlay
         function closeRecruitment() {
             recruitmentOverlay.classList.remove('open');
             recruitmentOverlay.setAttribute('aria-hidden', 'true');
-            diabolicalList.classList.remove('open');
             document.body.style.overflow = '';
             initialContent.style.display = 'flex';
             joinBtn.disabled = false;
@@ -391,6 +532,38 @@
             const card = document.querySelector('.recruitment-card');
             if (!card.contains(e.target)) {
                 closeRecruitment();
+            }
+        });
+
+        // Open requirements overlay with animation
+        requirementsBtn.addEventListener('click', () => {
+            recruitmentOverlay.classList.remove('open');
+            recruitmentOverlay.setAttribute('aria-hidden', 'true');
+            howlAudio.play().catch(e => console.error('Howl audio error:', e));
+            requirementsOverlay.classList.add('open');
+            requirementsOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Close requirements overlay
+        requirementsClose.addEventListener('click', () => {
+            requirementsOverlay.classList.remove('open');
+            requirementsOverlay.setAttribute('aria-hidden', 'true');
+            howlAudio.pause();
+            howlAudio.currentTime = 0;
+            recruitmentOverlay.classList.add('open');
+            recruitmentOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        });
+        requirementsOverlay.addEventListener('click', (e) => {
+            const card = document.querySelector('.requirements-card');
+            if (!card.contains(e.target)) {
+                requirementsOverlay.classList.remove('open');
+                requirementsOverlay.setAttribute('aria-hidden', 'true');
+                howlAudio.pause();
+                howlAudio.currentTime = 0;
+                recruitmentOverlay.classList.add('open');
+                recruitmentOverlay.setAttribute('aria-hidden', 'false');
             }
         });
 
@@ -414,7 +587,7 @@
         });
 
         // Tab title rotation
-        const titles = ["I S I S", "J O I N", "@zoophilism", "@72435"];
+        const titles = ["I S I S", "J O I N", "@zoophilism", "@pentads", "@72435", "@zakraie", "@imbreviate"];
         let titleIndex = 0;
         setInterval(() => {
             document.title = titles[titleIndex];
@@ -422,5 +595,4 @@
         }, 1500);
     </script>
 </body>
-
 </html>
